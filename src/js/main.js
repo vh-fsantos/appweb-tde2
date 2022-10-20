@@ -1,14 +1,17 @@
-var allClasses = jsonData.DISCIPLINAS;
+const { CURSO, CODIGO_DO_CURSO, DURACAO, CARGA_HORARIA, DISCIPLINAS } = jsonData;
+const body = document.body;
+const table = document.getElementById('allClasses');
+const modal = document.getElementById('modal');
 
 function loadHeader() {
     let pageTitle = document.getElementById('courseName');
-    pageTitle.innerHTML = jsonData.CURSO;
+    pageTitle.innerHTML = CURSO;
 
     let information = document.getElementById('courseInformation');
 
-    let informationContent = `<p>${jsonData.CODIGO_DO_CURSO}</p>`;
-    informationContent += `<p>${jsonData.DURACAO}</p>`;
-    informationContent += `<p>${jsonData.CARGA_HORARIA}</p>`;
+    let informationContent = `<p>${CODIGO_DO_CURSO}</p>`;
+    informationContent += `<p>${DURACAO}</p>`;
+    informationContent += `<p>${CARGA_HORARIA}</p>`;
 
     information.innerHTML = informationContent;
 }
@@ -21,17 +24,18 @@ function loadTableContent() {
                             <th>Horas-aula</th>
                         </tr>`;
 
-    for (i = 0; i < allClasses.length; i++) {
-        let currentClass = allClasses[i];
-        tableContent += `<tr onclick="tableRowClick('${currentClass.CODIGO}')">
-                            <td>${currentClass.SEMESTRE}</td>
-                            <td>${currentClass.CODIGO}</td>
-                            <td>${currentClass.DISCIPLINA}</td>
-                            <td>${currentClass.HORAS}</td>
+    for (i = 0; i < DISCIPLINAS.length; i++) {
+        let { CODIGO, SEMESTRE, DISCIPLINA, HORAS } = DISCIPLINAS[i];
+
+        tableContent += `<tr onclick="tableRowClick('${CODIGO}')">
+                            <td>${SEMESTRE}</td>
+                            <td>${CODIGO}</td>
+                            <td>${DISCIPLINA}</td>
+                            <td>${HORAS}</td>
                         </tr>`;
     }
 
-    document.getElementById('allClasses').innerHTML = tableContent;
+    table.innerHTML = tableContent;
 }
 
 function loadDocument() {
@@ -43,33 +47,73 @@ function getType(nat) {
     return nat === 'FBP' || nat === 'FEP' ? 'Presencial' : 'Digital';
 }
 
-function getPreRequisites(preRequisites) {
-    return preRequisites === undefined ? "" : `${preRequisites}`;
+function createClassLi(cod, discipline){
+    let li = document.createElement('li');
+
+    li.innerHTML = `<h2>${cod}</h2>
+                    <p>${discipline}</p>
+                    `;
+    return li;
 }
 
-function updateModal(modal, currentClass) {
+function getPreRequirementsSection(prerequirements){
+    let prerequirementsSection = document.createElement('section');
+    let sectionTitle = document.createElement('h3');
+    let prerequirementsList = document.createElement('ul');
+
+    sectionTitle.textContent = 'Pré-requisitos';
+    prerequirementsSection.appendChild(sectionTitle);
+
+    let prerequirementsWithoutWhiteSpace = prerequirements.replace(/\s+/g, '');
+
+    if (prerequirements.includes('+')){
+        let splittedRequirements = prerequirementsWithoutWhiteSpace.split('+'); // The first one is actually a Class and the second one is Hours so
+        let discipline = DISCIPLINAS.find(element => element.ORDEM == splittedRequirements[0]) 
+        prerequirementsList.appendChild(createClassLi(discipline.CODIGO, discipline.DISCIPLINA));
+        
+        let hoursLi = document.createElement('li');
+        hoursLi.textContent = `+ ${splittedRequirements[1]}`;
+
+        prerequirementsList.appendChild(hoursLi);
+    }
+    else{
+        let splittedRequirements = prerequirementsWithoutWhiteSpace.split(',');
+
+        splittedRequirements.forEach(requirement => {
+            let discipline = DISCIPLINAS.find(element => element.ORDEM == requirement);
+            prerequirementsList.appendChild(createClassLi(discipline.CODIGO, discipline.DISCIPLINA));
+        });
+    }
+
+    prerequirementsSection.appendChild(prerequirementsList);
+
+    return prerequirementsSection;
+}
+
+function updateModal(currentClass) {
+    let { SEMESTRE, CODIGO, DISCIPLINA, EMENTA, NAT, HORAS, PREREQUISITOS } = currentClass;
     modal.innerHTML = `
-        <h2>${currentClass.CODIGO}</h2>
-        <h3>${currentClass.DISCIPLINA}</h3>
-        <p>${currentClass.EMENTA}</p>
-        <h3>${currentClass.SEMESTRE}º Semestre - Modalidade ${getType(currentClass.NAT)} - Duração ${currentClass.HORAS} horas</h3>
-        <section>
-            <h3>Pré-requisitos</h3>
-            <p>${getPreRequisites(currentClass.PREREQUISITOS)}</p>
-        </section>
-        <button onClick="closeModal()">OK</button>
+        <h2>${CODIGO}</h2>
+        <h3>${DISCIPLINA}</h3>
+        <p>${EMENTA}</p>
+        <h3>${SEMESTRE}º Semestre - Modalidade ${getType(NAT)} - Duração ${HORAS} horas</h3>
     `;
+
+    if (PREREQUISITOS != undefined){
+        modal.appendChild(getPreRequirementsSection(`${PREREQUISITOS}`));
+    }
+
+    modal.innerHTML += '<button onClick="closeModal()">OK</button>';
 }
 
 function tableRowClick(classCode) {
-    let modal = document.getElementById('modal');
-    let currentClass = allClasses.find(element => element.CODIGO === classCode);
-
-    updateModal(modal, currentClass);
+    let currentClass = DISCIPLINAS.find(element => element.CODIGO === classCode);
+    updateModal(currentClass);
     modal.showModal();
+    body.style.overflowY = 'hidden';
 }
 
 function closeModal() {
-    let modal = document.getElementById('modal');
+    body.removeAttribute('style');
     modal.close();
 }

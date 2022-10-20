@@ -1,3 +1,15 @@
-tbody:not(:nth-child(1)){
+body{
+    height: 100vh;
+}
+
+body.modal-open {
+    overflow-y: hidden;
+}
+
+.modal::backdrop{
+    background-color: rgba(0 0 0 / .5);
+}
+
+tbody > :not(:nth-child(1)){
     cursor: pointer;
 }
