@@ -7,25 +7,41 @@
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/style.css">
     <title>Bacharelado em Engenharia de Software - Grade Curricular</title>
 </head>
 
 <body onload="loadDocument()">
     <header>
-        <a href="/src">
-            <img src="assets/img/logo.png" alt="Universidade de Caxias do Sul" width="342" height="20">
-        </a>
+        <nav>
+            <a href="/src">
+                <img src="assets/img/logo.png" alt="Universidade de Caxias do Sul" width="291" height="17">
+            </a>
+            <a href="">Graduação</a>
+            <a href="">Especializações e MBAs</a>
+            <a href="">Mestrados e Doutorados</a>
+            <a href="">Cursos de Extensão</a>
+            <input type="search" placeholder="Pesquisar...">
+            <div class="input-group-append">
+                <button class="" type="submit">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+        </nav>
     </header>
-    <main>
-        <h1 id="courseName"></h1>
+    <main id="main">
+        <section class="banner">
+            <img src="assets/img/banner.png" alt="Tela de computador com linhas de código">
+            <h1 id="courseName"></h1>
+        </section>
         <section id="courseInformation"></section>
         <h2>Grade Curricular</h2>
         <article>
             <table id="allClasses"></table>
         </article>
-        <dialog id="modal" class="modal"></dialog>
     </main>
     <footer>
         <p>Feito por Vitor Hugo Foscarini dos Santos.</p>

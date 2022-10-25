@@ -71,7 +71,6 @@ picture,
 svg {
     max-width: 100%;
     height: auto;
-    display: block;
 }
 
 
@@ -87,23 +86,14 @@ svg {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
+        scroll-behavior: smooth !important;
     }
 }
 
-
 /* General Styling */
-
-a:has(img) {
-    margin-inline: auto;
-}
 
 body.modal-open {
     overflow-y: hidden;
-}
-
-dialog {
-    margin: auto;
 }
 
 header {
@@ -111,8 +101,122 @@ header {
     background-color: #343a40;
 }
 
-.modal::backdrop {
-    background-color: rgba(0 0 0 / .5);
+nav{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-block: .5rem;
+    gap: 20px;
+}
+
+nav > a{
+    color: white;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+nav > a:hover{
+    text-decoration: underline;
+}
+
+nav> :nth-child(1){
+    padding-block: 0.3125rem;
+    margin-inline-end: 20px;
+}
+
+nav> :nth-child(6){
+    background-color: #343a40;
+    color: #ced4da;
+    border: 1px solid #ced4da;
+    border-right: 0;
+    margin-inline-start: 20px;
+    height: calc(1.5em + 0.5rem + 2px);
+    padding: 0.25rem 0.5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+}
+
+nav> :nth-child(6):focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+}
+
+.input-group-append{
+    margin-inline-start: -20px;
+    display: flex;
+}
+
+button{
+    color: #6c757d;
+    cursor: pointer;
+    border-radius: 0;
+    border: 1px solid #ced4da;
+    border-left: 0;
+    padding: 0.45rem 0.6rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    background-color: transparent;
+}
+
+
+.banner{
+    position: relative;
+    width: 100%;
+}
+
+#courseName{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    font-weight: 100;
+    z-index: 200;
+    text-transform: uppercase;
+    text-align: center;
+    font-size:2.65rem;
+    color: #fff;
+}
+
+#courseInformation{
+    display: flex;
+    gap: 20px;
+    margin-block: 20px;
+    justify-content: center;
+}
+
+h2{
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+table{
+    margin-inline: auto;
+    margin-block: 20px;
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+
+th,td{
+    padding-inline: 20px;
+    text-align: center;
+}
+
+th{
+    font-weight: 500;
+    background-color: #343a40;
+    color: white;
+}
+
+.background-pair{
+    background-color: #5483B9;
+}
+
+.background-odd{
+    background-color: #729FCF;
 }
 
 tbody> :not(:nth-child(1)) {
@@ -120,5 +224,94 @@ tbody> :not(:nth-child(1)) {
 }
 
 tbody> :not(:nth-child(1)):hover {
-    background-color: rgb(212 212 212);
+    color: rgb(212 212 212);
+}
+
+dialog {
+    margin: auto;
+    padding: 20px;
+}
+
+dialog::backdrop{
+    background-color: rgba(0 0 0 / .75);
+}
+
+#modalArticle{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+#modalArticle>h2{
+    font-weight: 700;
+    text-align: center;
+}
+
+h3{
+    text-align: center;
+    font-weight: 500;
+    font-size: 1.15rem;
+}
+
+#modalArticle>p{
+    text-align: justify;
+    max-width: 60ch;
+}
+
+#modalArticle>section{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+ul{
+    align-items: center;
+    justify-content: center;
+}
+
+li:has(h2){
+    background-color: #729FCF;
+    color: white;
+    padding: 15px;
+    border: 1px solid #5483B9;
+    border-radius: 10px;
+    min-height: 105px;
+    min-width: 155px;
+}
+
+li>h2{
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+li>p{
+    max-width: 17ch;
+    text-align: center;
+    font-size: .8rem;
+    padding-block-start: 10px;
+}
+
+#modalArticle>button{
+    border: 1px solid #568B8A;
+    background-color: #81D41A;
+    font-size: 1rem;
+    line-height: 1;
+    padding-inline: 20px;
+    color: white;
+    transition: border .5s ease, background-color .5s ease;
+}
+
+#modalArticle>button:hover{
+    border-color:#81D41A;
+    background-color: #568B8A;
+}
+
+footer{
+    width: 100%;
+    background-color: #343a40;
+    padding-block: 20px;
+    color: #fff;
+    text-align: center;
 }

@@ -1,7 +1,10 @@
 const { CURSO, CODIGO_DO_CURSO, DURACAO, CARGA_HORARIA, DISCIPLINAS } = jsonData;
 const body = document.body;
 const table = document.getElementById('allClasses');
-const modal = document.getElementById('modal');
+const main = document.getElementById('main');
+const modal = document.createElement('dialog');
+modal.setAttribute('id','modal');
+modal.setAttribute('class','modal');
 
 function loadHeader() {
     let pageTitle = document.getElementById('courseName');
@@ -17,7 +20,8 @@ function loadHeader() {
 }
 
 function loadTableContent() {
-    let tableContent = `<tr>
+    let tableContent = `<tbody>
+                        <tr>
                             <th>Semestre</th>
                             <th>Código da Disciplina</th>
                             <th>Nome da Disciplina</th>
@@ -27,7 +31,7 @@ function loadTableContent() {
     for (i = 0; i < DISCIPLINAS.length; i++) {
         let { CODIGO, SEMESTRE, DISCIPLINA, HORAS } = DISCIPLINAS[i];
 
-        tableContent += `<tr onclick="tableRowClick('${CODIGO}')">
+        tableContent += `<tr class="${SEMESTRE % 2 == 0 ? 'background-pair' : 'background-odd'}" onclick="tableRowClick('${CODIGO}')">
                             <td>${SEMESTRE}</td>
                             <td>${CODIGO}</td>
                             <td>${DISCIPLINA}</td>
@@ -35,7 +39,8 @@ function loadTableContent() {
                         </tr>`;
     }
 
-    table.innerHTML = tableContent;
+    table.innerHTML =  `${tableContent}
+                        </tbody>`;
 }
 
 function loadDocument() {
@@ -61,6 +66,7 @@ function getPreRequirementsSection(prerequirements){
     let sectionTitle = document.createElement('h3');
     let prerequirementsList = document.createElement('ul');
 
+    prerequirementsList.setAttribute('role','list');
     sectionTitle.textContent = 'Pré-requisitos';
     prerequirementsSection.appendChild(sectionTitle);
 
@@ -92,23 +98,32 @@ function getPreRequirementsSection(prerequirements){
 
 function updateModal(currentClass) {
     let { SEMESTRE, CODIGO, DISCIPLINA, EMENTA, NAT, HORAS, PREREQUISITOS } = currentClass;
-    modal.innerHTML = `
+    let article = document.getElementById('modalArticle');
+
+    if (article == undefined){
+        article = document.createElement('article');
+        article.setAttribute('id','modalArticle');
+    }
+
+    article.innerHTML = `
         <h2>${CODIGO}</h2>
         <h3>${DISCIPLINA}</h3>
-        <p>${EMENTA}</p>
+        <p>${EMENTA == undefined ? 'Ementa não encontrada no JSON' : EMENTA}</p>
         <h3>${SEMESTRE}º Semestre - Modalidade ${getType(NAT)} - Duração ${HORAS} horas</h3>
     `;
 
     if (PREREQUISITOS != undefined){
-        modal.appendChild(getPreRequirementsSection(`${PREREQUISITOS}`));
+        article.appendChild(getPreRequirementsSection(`${PREREQUISITOS}`));
     }
 
-    modal.innerHTML += '<button onClick="closeModal()">OK</button>';
+    article.innerHTML += '<button onClick="closeModal()">OK</button>';
+    modal.appendChild(article);
 }
 
 function tableRowClick(classCode) {
     let currentClass = DISCIPLINAS.find(element => element.CODIGO === classCode);
     updateModal(currentClass);
+    main.appendChild(modal);
     modal.showModal();
     body.style.overflowY = 'hidden';
 }
