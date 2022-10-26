@@ -16,7 +16,7 @@
 
 <body onload="loadDocument()">
     <header>
-        <nav>
+        <nav class="primaryNav">
             <a href="/src">
                 <img src="assets/img/logo.png" alt="Universidade de Caxias do Sul" width="291" height="17">
             </a>
@@ -26,11 +26,29 @@
             <a href="">Cursos de Extensão</a>
             <input type="search" placeholder="Pesquisar...">
             <div class="input-group-append">
-                <button class="" type="submit">
+                <button class="buttonNav">
                     <i class="fa fa-search"></i>
                 </button>
             </div>
         </nav>
+        <nav class="mobileNav">
+            <a href="/src">
+                <img src="assets/img/logo-ucs.png" alt="Universidade de Caxias do Sul" width="175">
+            </a>
+            <button class="buttonMobileNav">
+                <i class="fa fa-search"></i>
+            </button>
+            <button class="buttonMobileNav" onclick="showMobileNav()">
+                <i class="fa fa-bars"></i>
+            </button>
+            <div class="mobileNavContainer">
+                <a href="">Graduação</a>
+                <a href="">Especializações e MBAs</a>
+                <a href="">Mestrados e Doutorados</a>
+                <a href="">Cursos de Extensão</a>
+            </div>
+        </nav>
+
     </header>
     <main id="main">
         <section class="banner">
@@ -48,6 +66,7 @@
     </footer>
 </body>
 <script type="text/javascript" src="assets/data/Eng.Software.json"></script>
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
 
 </html>

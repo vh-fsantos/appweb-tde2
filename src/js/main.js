@@ -132,3 +132,10 @@ function closeModal() {
     body.removeAttribute('style');
     modal.close();
 }
+
+function showMobileNav(){
+    $('.mobileNavContainer').slideToggle('fast', function(){
+        if ($('.mobileNavContainer').is(':visible'))
+            $('.mobileNavContainer').css('display','flex');
+    });
+}
